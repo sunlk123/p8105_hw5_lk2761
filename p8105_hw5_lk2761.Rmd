@@ -106,5 +106,7 @@ study_df %>%
        y = "Observations")
 ```
 
+Based on the spaghetti plot, subjects in the control arm seem to have lower numbers of observations compared to those in the experimental arm.There is a bit of overlap between the two study arms between 1.25 and 3.75 numbers of observations. 
+
 ## Problem 3
 
