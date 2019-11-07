@@ -100,7 +100,10 @@ The following code chunk creates a spaghetti plot that shows the observations fo
 study_df %>%
   group_by(control_arm, subject_id) %>%
   ggplot(aes(x = week, y = obs, group = subject_id, color = control_arm)) +
-  geom_path()
+  geom_path() + 
+  labs(title = "Figure 1. Study observations for each subject over time",
+       x = "Week",
+       y = "Observations")
 ```
 
 ## Problem 3
