@@ -60,11 +60,15 @@ output = map(iris_with_missing, iris_filling)
 
 ## Problem 2
 
+This code chunk creates a dataframe that consists of the file names and converts it into a vector.
+
 ```{r}
 df = list.files(pattern = "*.csv")
 
 vec_file = str_c(df)
 ```
+
+This code chunk creates a function that reads in data for each subject from each individual csv file and saves the weekly observations as a new varaible in the dataframe. 
 
 ```{r}
 
@@ -72,7 +76,18 @@ for (i in length(df):1) {
   output[[i]] = read_csv(vec_file[[i]])
 }
 
-output = map_df(vec_file, read_csv)
+output = cbind(vec_file, map_df(vec_file, read_csv))
+```
+
+This code chunk tidies the resulting dataframe obtained from the for loop. 
+
+```{r}
+study_df = 
+  output %>%
+  separate(vec_file, c("control_arm", "subject_id")) %>%
+  separate(subject_id, c("subject_id", "csv"), ".csv") %>%
+  select(-csv)
+  
 ```
 
 ## Problem 3
