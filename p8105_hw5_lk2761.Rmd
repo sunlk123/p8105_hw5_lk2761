@@ -165,6 +165,8 @@ sim_results2 %>%
   geom_point()
 ```
 
+This code chunk creates a plot that compares the average estimate of β̂1 versus the true value of β among samples that rejected the null hypothesis (p-value is less than or equal to 0.05).
+
 ```{r}
 sim_results2 %>%
   group_by(beta1_list) %>%
