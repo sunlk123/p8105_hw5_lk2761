@@ -141,25 +141,6 @@ sim_results =
   mutate(term = str_replace(term, "x1", "beta1_hat"))
 ```
 
-
-```{r}
-beta1_list = list("beta1_1"  = 1, 
-              "beta1_2"  = 2, 
-              "beta1_3" = 3, 
-              "beta1_4" = 4,
-              "beta1_5" = 5,
-              "beta1_6" = 6)
-output3 = vector("list", length = 6)
-
-for (i in 1:6) {
-  output3[[i]] = rerun(10000, sim_regression(beta1_list[[i]])) %>% 
-    bind_rows() %>%
-    select(term, p.value) %>%
-    filter(term == "x1") %>%
-    mutate(term = str_replace(term, "x1", "beta1_hat"))
-}
-```
-
 The following code chunk runs a simulation with different values for β1 using `map`.
 
 ```{r}
@@ -170,8 +151,27 @@ sim_results2 =
     estimate_dfs = map(output_lists, bind_rows)) %>% 
   select(-output_lists) %>% 
   unnest(estimate_dfs) %>%
-  select(beta1_list, term, p.value) %>%
+  select(beta1_list, term, estimate, p.value) %>%
   filter(term == "x1") 
 ```
 
 The following code chunk generates a plot that compares the average estimate of β̂1 versus the true value of β1.
+
+```{r}
+sim_results2 %>%
+  group_by(beta1_list) %>%
+  mutate(avg_beta1_hat = mean(estimate)) %>%
+  ggplot(aes(x = beta1_list, y = avg_beta1_hat, color = beta1_list)) +
+  geom_point()
+```
+
+```{r}
+sim_results2 %>%
+  group_by(beta1_list) %>%
+  filter(p.value <= 0.05) %>%
+  mutate(avg_beta1_hat2 = mean(estimate)) %>%
+  ggplot(aes(x = beta1_list, y = avg_beta1_hat2, color = beta1_list)) +
+  geom_point()
+```
+
+
