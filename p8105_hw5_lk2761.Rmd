@@ -145,7 +145,7 @@ The following code chunk runs a simulation with different values for β1 using `
 
 ```{r}
 sim_results2 = 
-  tibble(beta1_list = c(0, 1, 2, 3, 4, 5, 6)) %>% 
+  tibble(beta1_list = c(1, 2, 3, 4, 5, 6)) %>% 
   mutate(
     output_lists = map(.x = beta1_list, ~rerun(10000, sim_regression(beta1 = .x))),
     estimate_dfs = map(output_lists, bind_rows)) %>% 
@@ -153,6 +153,27 @@ sim_results2 =
   unnest(estimate_dfs) %>%
   select(beta1_list, term, estimate, p.value) %>%
   filter(term == "x1") 
+```
+
+This code chunk creates a new dataframe that includes only the cases in which the null hypothesis was rejected and shows the proportion of times it was rejected.
+
+```{r}
+power_df = 
+  sim_results2 %>% 
+  group_by(beta1_list) %>%
+  count(p.value <= 0.05) %>%
+  mutate(null_rejected = `p.value <= 0.05`,
+         prop_null_rejected = n/10000) %>%
+  select(beta1_list, null_rejected, n, prop_null_rejected)
+```
+
+This code chunk creates a plot that looks at the proportion of times the null hypothesis was rejected (the power of the test) versus the true value of β1.
+
+```{r}
+power_df %>%
+  filter(null_rejected == "TRUE") %>%
+  ggplot(aes(x = beta1_list, y = prop_null_rejected)) +
+  geom_point()
 ```
 
 The following code chunk generates a plot that compares the average estimate of β̂1 versus the true value of β1.
