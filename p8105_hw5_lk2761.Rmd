@@ -211,4 +211,4 @@ sim_results2 %>%
        y = "Average estimate of β̂1")
 ```
 
-Based on the plot, the sample average of β̂1 across tests for which the null is rejected is not approximately equal to the true value of β1. 
+Based on the plot, the sample average of β̂1 across tests for which the null is rejected is not approximately equal to the true value of β1. The sample average of β̂1 is greater than the true value of β1.
