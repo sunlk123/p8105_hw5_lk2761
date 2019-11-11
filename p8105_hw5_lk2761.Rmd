@@ -54,7 +54,9 @@ iris_filling = function(x) {
   
 }
 
-output = map(iris_with_missing, iris_filling)
+output = map_df(iris_with_missing, iris_filling)
+
+view(output)
 ```
 
 ## Problem 2
@@ -70,19 +72,20 @@ vec_file = str_c(df)
 This code chunk creates a function that reads in data for each subject from each individual csv file and saves the weekly observations as a new varaible in the dataframe. 
 
 ```{r}
+output2 = vector("list", length = 20)
 
 for (i in length(df):1) {
-  output[[i]] = read_csv(vec_file[[i]])
+  output2[[i]] = read_csv(vec_file[[i]])
 }
 
-output = cbind(vec_file, map_df(vec_file, read_csv))
+output2 = cbind(vec_file, map_df(vec_file, read_csv))
 ```
 
 This code chunk tidies the resulting dataframe obtained from the for loop. 
 
 ```{r}
 study_df = 
-  output %>%
+  output2 %>%
   separate(vec_file, c("control_arm", "subject_id")) %>%
   separate(subject_id, c("subject_id", "csv"), ".csv") %>%
   select(-csv) %>%
