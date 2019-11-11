@@ -61,7 +61,7 @@ view(output)
 
 ## Problem 2
 
-This code chunk creates a dataframe that consists of the file names and converts it into a vector.
+This code chunk creates a dataframe that consists of the file names and converts it into a vector. I did not know how to create a dataframe from pulling in the csv files from a data subdirectory, which is why I left them all out in the main directory. 
 
 ```{r}
 df = list.files(pattern = "*.csv")
